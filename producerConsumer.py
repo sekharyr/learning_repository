@@ -11,7 +11,7 @@ def producer():
     item=['bag','pen','book','pencil','box','shirt']
     for _ in range(10):
         con.acquire()
-        if len(product) == 3:
+        if len(product) == 3:  #case1 : product produced is more than max limit
             print("No demand for product")
             con.wait()
         product.append(item[randint(0,5)])
@@ -26,7 +26,7 @@ def consumer():
     global product
     for _ in range(10):
         con.acquire()
-        if not product:
+        if not product:     #case2:no product to consume
             print ("no product to consume")
             con.wait()
             print ('new product produced')
