@@ -8,12 +8,13 @@ con=Condition()
 
 def producer():
     global product
+    item=['bag','pen','book','pencil','box','shirt']
     for _ in range(10):
         con.acquire()
         if len(product) == 3:
             print("No demand for product")
             con.wait()
-        product.append(randint(1,20))
+        product.append(item[randint(0,5)])
         print (f"Produced {product[len(product)-1]}")
         con.notify()
         con.release()
