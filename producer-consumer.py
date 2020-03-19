@@ -1,4 +1,4 @@
-import multiprocessing, time, random, queue
+import threading, time, random, queue
 
 class Prod:
 	def __init__(self):
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 	q = queue.Queue(10)
 	p = Prod()
 	c = Consumer()
-	pt = multiprocessing.Process(target=p.run, args = ())
-	ct = multiprocessing.Process(target=c.run, args = ())
+	pt = threading.Thread(target=p.run, args = ())
+	ct = threading.Thread(target=c.run, args = ())
 	pt.start()
 	ct.start()
