@@ -4,6 +4,8 @@ import subprocess
 import os
 from github import Github
 
+#Fixing as per review comment
+
 # Authentication
 token = os.getenv("GITHUB_TOKEN")  # GitHub token from environment variables
 if not token:
@@ -145,7 +147,7 @@ def main():
         rebase_children(args.branch)
     elif args.command == "view":
         print("Pull Request Dependency Tree:")
-        display_tree("main")
+        display_tree("master")
     else:
         print("Invalid command or missing arguments.")
 
