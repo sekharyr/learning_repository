@@ -94,7 +94,7 @@ def create_pr(branch, base, title, body):
 def rebase_children(branch):
     for child, data in dependency_graph.items():
         if data.get("parent") == branch:
-            subprocess.run(["git", "checkout", "-b", child])
+            subprocess.run(["git", "checkout", child])
             print(f"Rebasing child branch: {child} onto {branch}")
             # subprocess.run(["git", "update-ref", f"refs/heads/{child}", f"refs/heads/{branch}"])
             subprocess.run(["git", "rebase", branch])
