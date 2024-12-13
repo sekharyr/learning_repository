@@ -5,6 +5,7 @@ import os
 from github import Github
 
 #Fixing as per review comment
+#One more additon
 
 # Authentication
 token = os.getenv("GITHUB_TOKEN")  # GitHub token from environment variables
@@ -88,7 +89,8 @@ def rebase_children(branch):
     for child, data in dependency_graph.items():
         if data.get("parent") == branch:
             print(f"Rebasing child branch: {child} onto {branch}")
-            subprocess.run(["git", "update-ref", f"refs/heads/{child}", f"refs/heads/{branch}"])
+            # subprocess.run(["git", "update-ref", f"refs/heads/{child}", f"refs/heads/{branch}"])
+            subprocess.run(["git", "rebase", branch])
             print(f"Rebased {child} onto {branch}.")
             rebase_children(child)  # Recursively rebase further children
 
@@ -135,10 +137,11 @@ def main():
     if args.command == "create" and args.branch and args.message:
         create_branch_and_commit(args.branch, args.message)
         create_pr(args.branch, args.base, args.message, "")
-    elif args.command == "modify" and args.branch:
+    elif args.command == "modify" and args.branch and args.message:
         subprocess.run(["git", "checkout", args.branch])
+        subprocess.run(["git", "commit", "-m", args.message])
         subprocess.run(["git", "push", "--set-upstream", "origin", args.branch])
-        restack_branches(args.branch)
+        rebase_children(args.branch)
     elif args.command == "submit":
         submit_prs()
     elif args.command == "check":
