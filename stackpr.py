@@ -7,6 +7,9 @@ from github import Github
 #Fixing as per review comment
 #One more additon
 
+#one more addtion - two
+
+
 # Authentication
 token = os.getenv("GITHUB_TOKEN")  # GitHub token from environment variables
 if not token:
@@ -88,10 +91,12 @@ def create_pr(branch, base, title, body):
 def rebase_children(branch):
     for child, data in dependency_graph.items():
         if data.get("parent") == branch:
+            subprocess.run(["git", "checkout", "-b", child])
             print(f"Rebasing child branch: {child} onto {branch}")
             # subprocess.run(["git", "update-ref", f"refs/heads/{child}", f"refs/heads/{branch}"])
             subprocess.run(["git", "rebase", branch])
             print(f"Rebased {child} onto {branch}.")
+            subprocess.run(["git", "push", "--set-upstream", "origin", child])
             rebase_children(child)  # Recursively rebase further children
 
 # Restack branches and update PR dependencies
