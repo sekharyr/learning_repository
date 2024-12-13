@@ -9,10 +9,12 @@ from github import Github
 #one more addtion - two
 
 # Authentication
+
 token = os.getenv("GITHUB_TOKEN")  # GitHub token from environment variables
 if not token:
     raise ValueError("GITHUB_TOKEN environment variable not set.")
 g = Github(token)
+# Auth1
 
 # Repository details env variable
 repo_name = os.getenv("GITHUB_REPO")  # Repository name from environment variables
